@@ -20,7 +20,7 @@
     "url": "https://github.com/daviddivinefavour/inventoryManager/issues"
   },
   "homepage": "https://github.com/daviddivinefavour/inventoryManager#readme",
-    "dependencies": {
+  "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -41,6 +41,8 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^4.2.1"
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.22",
+    "sequelize-cli": "^6.6.0"
   }
 }
