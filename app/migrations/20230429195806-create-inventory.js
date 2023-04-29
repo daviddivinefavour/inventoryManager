@@ -1,23 +1,18 @@
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('categories', {
+    await queryInterface.createTable('inventories', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
-      },
-      isActive: {
-        type: Sequelize.BOOLEAN
-      },
-      deletedAt: {
-        type: Sequelize.DATE,
-        allowNull: true,
-        defaultValue: null,
-        field: 'deleted_at'
+      unitsAvailable: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        field: 'units_available'
       },
       createdAt: {
         allowNull: false,
@@ -28,10 +23,16 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         field: 'updated_at'
+      },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+        defaultValue: null,
+        field: 'deleted_at'
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('categories');
+    await queryInterface.dropTable('inventories');
   }
 };
