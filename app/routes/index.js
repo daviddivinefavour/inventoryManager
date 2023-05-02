@@ -1,4 +1,4 @@
-import inventoryRoutes from './resources/inventory/routes';
+import inventoryRoutes from '../resources/inventory/routes';
 
 export default (app) => {
   app.use('/api/v1/inventory', inventoryRoutes);

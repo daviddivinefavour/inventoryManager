@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import routes from './routes';
 
 const app = express();
 const whitelist = ['*'];
@@ -22,5 +23,7 @@ const corsOptions = {
 // add middlewares to all incoming requests.
 app.use(express.json(), cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
+
+routes(app);
 
 export default app;
