@@ -4,15 +4,19 @@ module.exports = {
     await queryInterface.createTable('inventories', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        autoIncrement: false,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       unitsAvailable: {
         type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0,
         field: 'units_available'
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
