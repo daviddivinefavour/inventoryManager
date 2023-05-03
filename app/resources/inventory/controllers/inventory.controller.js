@@ -33,5 +33,5 @@ export const UpdateInventoryItem = async (req, res) => {
 export const RemoveInventoryItem = async (req, res) => {
   const { id } = req.params;
   const deletedItem = await RemoveInventoryItemService(id);
-  return response(deletedItem)('Remove inventory item')();
+  return response(deletedItem)('Remove inventory item')(res);
 };
