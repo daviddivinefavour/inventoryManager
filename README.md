@@ -33,6 +33,12 @@ $ npm run build
 $ cp .env.example .env
 ```
 
+- If this is being run locally, then after filling the details in the env file, next thing that should be done would be to drop,create and run migrations for the database.
+
+```sh
+$ cd app && npx sequelize db:drop && npx sequelize db:create && npx sequelize db:migrate
+```
+
 - Start project in either of the available modes[dev or prod, for development and production respectively]. However, development is used as default in this guide.
 
 ```sh
