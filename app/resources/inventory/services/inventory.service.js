@@ -5,7 +5,9 @@ import {
   GetFullInventoryQuery,
   CreateInventoryItemQuery,
   FindInventoryItemQuery,
-  UpdateInventoryQuery
+  UpdateInventoryQuery,
+  SoftDeleteItemQuery,
+  DeleteInventoryItemQuery
 } from '../queries/inventory.query';
 import validator from '../../../utils/validator';
 import { CreateNewInventoryItemValidator } from '../validators/inventory.validator';
@@ -73,9 +75,6 @@ export const AddInventoryItemService = async (data) => {
 };
 
 export const UpdateInventoryItemService = async (itemId, data) => {
-  console.log(itemId)
-  console.log(data)
-  // Confirm that the required fields are filled.
   const validatedInventoryData = await validator(
     CreateNewInventoryItemValidator
   )(data);
@@ -87,15 +86,22 @@ export const UpdateInventoryItemService = async (itemId, data) => {
     });
   }
 
+  const item = await FindInventoryItemQuery({ id: itemId });
+  if (!item) {
+    logger.error(`Failed to fetch item record\n ${item}`);
+    return returnResult(false, {
+      status: 422,
+      message: 'Oops! Something went wrong, Unable to locate item.'
+    });
+  }
+
   const { name, unitsAvailable } = validatedInventoryData;
-  const updatedItem = await UpdateInventoryQuery({ id: itemId })(
+  const update = await UpdateInventoryQuery({ id: itemId })({
     name,
     unitsAvailable
-  );
-
-  console.log(updatedItem);
-  if (!updatedItem) {
-    logger.error(`Failed to update item\n ${updatedItem}`);
+  });
+  if (!update) {
+    logger.error(`Failed to update item\n ${update}`);
     return returnResult(false, {
       status: 422,
       message: 'Oops! Something went wrong, Unable to update item.'
@@ -104,8 +110,21 @@ export const UpdateInventoryItemService = async (itemId, data) => {
   return returnResult(true, {
     status: 200,
     message: 'Successfully updated item information.',
-    entity: updatedItem
+    entity: update
   });
 };
 
-export const RemoveInventoryItemService = async () => {};
+export const RemoveInventoryItemService = async (itemid) => {
+  const deleted = await SoftDeleteItemQuery({ id: itemid });
+  if (!deleted) {
+    logger.error(`Failed to delete item\n ${deleted}`);
+    return returnResult(false, {
+      status: 422,
+      message: 'Oops! Something went wrong, Unable to delete item.'
+    });
+  }
+  return returnResult(true, {
+    status: 200,
+    message: 'Successfully deleted item information.'
+  });
+};

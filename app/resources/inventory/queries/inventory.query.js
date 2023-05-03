@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { Inventory } from '../../../models';
 
 export const CreateInventoryItemQuery = async (data) =>
@@ -15,17 +16,12 @@ export const FindInventoryItemQuery = async (query) =>
   });
 
 export const UpdateInventoryQuery = (query) => async (data) => {
-  const updatedItem = await Inventory.update(
-    { ...data },
-    {
-      where: {
-        ...query
-      },
-      returning: true
-    }
-  );
-  console.log('\n\n\n\n\n', updatedItem);
-  return updatedItem[1][0];
+  const item = await FindInventoryItemQuery({ ...query });
+  if (!item) {
+    return false;
+  }
+  item.set({ ...data });
+  return item.save();
 };
 
 export const GetFullInventoryQuery = async (page = 1, limit = 15) => {
@@ -33,6 +29,9 @@ export const GetFullInventoryQuery = async (page = 1, limit = 15) => {
   const pageNumber = Number(page) || 1;
   const offset = (pageNumber - 1) * limiter;
   return Inventory.findAndCountAll({
+    where: {
+      deletedAt: null
+    },
     limit: limiter,
     offset,
     order: [['createdAt', 'DESC']],
@@ -44,3 +43,14 @@ export const DeleteInventoryItemQuery = async (query) =>
   Inventory.destroy({
     where: { ...query }
   });
+
+export const SoftDeleteItemQuery = async (query) => {
+  const item = await FindInventoryItemQuery({ ...query });
+  if (!item) {
+    return false;
+  }
+  item.set({
+    deletedAt: moment().format('YYYY-MM-DD HH:mm:ss.SSSZ')
+  });
+  return item.save();
+};
