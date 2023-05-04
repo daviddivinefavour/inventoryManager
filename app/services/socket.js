@@ -4,7 +4,7 @@ const setUpSocketIo = (server) => {
   const io = socketIo(server);
 
   io.on('connection', (socket) => {
-    console.log('A client connected!');
+    console.log('This is the connect message!');
 
     socket.on('disconnect', () => {
       console.log('A client disconnected.');
