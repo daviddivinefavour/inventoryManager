@@ -5,7 +5,7 @@ const process = require('process');
 
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const configs = require('../config/database');
+const configs = require('../config/config');
 
 const config = configs[env];
 const db = {};
