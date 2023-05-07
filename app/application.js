@@ -23,6 +23,7 @@ const corsOptions = {
 // add middlewares to all incoming requests.
 app.use(express.json(), cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 routes(app);
 

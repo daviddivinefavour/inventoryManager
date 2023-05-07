@@ -2,8 +2,10 @@
 import 'dotenv/config';
 import { createServer } from 'http';
 import app from './application';
+import setUpSocketIo from './services/socket';
 
 const server = createServer(app);
+setUpSocketIo(server);
 const { PORT, HOST } = process.env;
 
 server.listen(PORT, () => {
